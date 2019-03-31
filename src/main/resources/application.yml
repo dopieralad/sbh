@@ -1,0 +1,3 @@
+logging:
+  pattern:
+    console: "[%d] [%-20.20thread] [%clr(%-5.5p)] [%blue(%100.100(%logger %boldCyan(\\(%F:%line\\))))]: %m%n"
