@@ -3,4 +3,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'sbh'
+
+rootProject.name = "sbh"
