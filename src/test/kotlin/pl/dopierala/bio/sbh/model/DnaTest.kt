@@ -1,4 +1,4 @@
-package pl.dopierala.bio.sbh.model.dna
+package pl.dopierala.bio.sbh.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertAll
