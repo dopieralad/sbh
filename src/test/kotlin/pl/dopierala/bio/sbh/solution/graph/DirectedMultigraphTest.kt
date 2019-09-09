@@ -113,4 +113,33 @@ internal class DirectedMultigraphTest {
                 { assertTrue(areEqual) }
         )
     }
+
+    @Test
+    fun `Represents itself as 'DirectedMultigraph(edges={})' when empty`() {
+        // Given
+        val graph = DirectedMultigraph<String, Int>()
+
+        // When
+        val string = graph.toString()
+
+        // Then
+        assertAll(
+                { assertEquals("DirectedMultigraph(edges={})", string) }
+        )
+    }
+
+    @Test
+    fun `Represents itself as 'DirectedMultigraph(edges={})' when has one edge`() {
+        // Given
+        val graph = DirectedMultigraph<String, Int>()
+        graph.add("A" to "B", 3)
+
+        // When
+        val string = graph.toString()
+
+        // Then
+        assertAll(
+                { assertEquals("DirectedMultigraph(edges={A={B=[3]}})", string) }
+        )
+    }
 }

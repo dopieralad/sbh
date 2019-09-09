@@ -29,4 +29,9 @@ class DirectedMultigraph<N, V> {
     override fun hashCode(): Int {
         return edges.hashCode()
     }
+
+    override fun toString(): String {
+        return "DirectedMultigraph(edges=$edges)"
+    }
+
 }
