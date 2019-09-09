@@ -14,4 +14,19 @@ class DirectedMultigraph<N, V> {
         return edges.getOrDefault(edge.first, mutableMapOf())
                 .getOrDefault(edge.second, mutableSetOf())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DirectedMultigraph<*, *>
+
+        if (edges != other.edges) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return edges.hashCode()
+    }
 }
