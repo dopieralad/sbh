@@ -1,9 +1,9 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.21"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
+    id("org.jetbrains.kotlin.jvm") version "1.3.50"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.50"
 
-    id("org.springframework.boot") version "2.1.3.RELEASE"
-    id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    id("org.springframework.boot") version "2.1.8.RELEASE"
+    id("io.spring.dependency-management") version "1.0.8.RELEASE"
 }
 
 val projectGroup: String by project
@@ -27,21 +27,17 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "junit")
     }
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$jUnitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$jUnitVersion")
 }
 
 tasks.compileKotlin {
     kotlinOptions {
-        freeCompilerArgs = listOf("Xjsr305=strict")
         jvmTarget = "1.8"
     }
 }
 
 tasks.compileTestKotlin {
     kotlinOptions {
-        freeCompilerArgs = listOf("Xjsr305=strict")
         jvmTarget = "1.8"
     }
 }
