@@ -3,8 +3,10 @@ package pl.dopierala.bio.sbh.solution
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import pl.dopierala.bio.sbh.model.generateDna
 import pl.dopierala.bio.sbh.model.spectrum
 import pl.dopierala.bio.sbh.solution.graph.DirectedMultigraph
+import java.time.Duration
 import kotlin.math.exp
 
 internal class GraphFactoryTest {
@@ -83,6 +85,21 @@ internal class GraphFactoryTest {
 
         // Then
         `With given spectrum, creates desired graph`(spectrum) { /* EMPTY */ }
+    }
+
+    @Test
+    fun `Creates a graph from 1000-long DNA and 10-long oligonucleotide under one second`() {
+        // Given
+        val dna = generateDna(1000)
+        val spectrum = dna.spectrum(10)
+
+        // When
+        val executable = { graphFactory.create(spectrum) }
+
+        // Then
+        assertAll(
+                { assertTimeoutPreemptively(Duration.ofSeconds(1), executable) }
+        )
     }
 
     private fun `With given spectrum, creates desired graph`(spectrum: Set<String>, expectations: DirectedMultigraph<String, Int>.() -> Unit) {
