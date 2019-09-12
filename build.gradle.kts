@@ -17,8 +17,8 @@ dependencies {
     val springShellVersion: String by project
     val jUnitVersion: String by project
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib-jdk8"))
     implementation("org.springframework.shell:spring-shell-starter:$springShellVersion")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
