@@ -1,37 +1,15 @@
 package pl.dopierala.bio.sbh.solution.graph
 
-class DirectedMultigraph<N, V> {
-
-    private val edges = mutableMapOf<N, MutableMap<N, MutableSet<V>>>()
+class DirectedMultigraph<N, V> : HashMap<N, HashMap<N, HashSet<V>>>() {
 
     fun add(edge: Pair<N, N>, value: V) {
-        edges.getOrPut(edge.first, { mutableMapOf() })
-                .getOrPut(edge.second, { mutableSetOf() })
+        getOrPut(edge.first, { HashMap() })
+                .getOrPut(edge.second, { HashSet() })
                 .add(value)
     }
 
     fun get(edge: Pair<N, N>): Set<V> {
-        return edges.getOrDefault(edge.first, mutableMapOf())
-                .getOrDefault(edge.second, mutableSetOf())
+        return getOrDefault(edge.first, HashMap())
+                .getOrDefault(edge.second, HashSet())
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DirectedMultigraph<*, *>
-
-        if (edges != other.edges) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return edges.hashCode()
-    }
-
-    override fun toString(): String {
-        return "DirectedMultigraph(edges=$edges)"
-    }
-
 }

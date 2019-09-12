@@ -115,7 +115,7 @@ internal class DirectedMultigraphTest {
     }
 
     @Test
-    fun `Represents itself as 'DirectedMultigraph(edges={})' when empty`() {
+    fun `Represents itself as an empty map when empty`() {
         // Given
         val graph = DirectedMultigraph<String, Int>()
 
@@ -124,12 +124,12 @@ internal class DirectedMultigraphTest {
 
         // Then
         assertAll(
-                { assertEquals("DirectedMultigraph(edges={})", string) }
+                { assertEquals("{}", string) }
         )
     }
 
     @Test
-    fun `Represents itself as 'DirectedMultigraph(edges={})' when has one edge`() {
+    fun `Represents itself as a filled map when has one edge`() {
         // Given
         val graph = DirectedMultigraph<String, Int>()
         graph.add("A" to "B", 3)
@@ -139,7 +139,7 @@ internal class DirectedMultigraphTest {
 
         // Then
         assertAll(
-                { assertEquals("DirectedMultigraph(edges={A={B=[3]}})", string) }
+                { assertEquals("{A={B=[3]}}", string) }
         )
     }
 }
