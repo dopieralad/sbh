@@ -86,21 +86,6 @@ internal class GraphFactoryTest {
         `With given spectrum, creates desired graph`(spectrum) { /* EMPTY */ }
     }
 
-    @Test
-    fun `Creates a graph from 1000-long DNA and 10-long oligonucleotide under one second`() {
-        // Given
-        val dna = generateDna(1000)
-        val spectrum = dna.spectrum(10)
-
-        // When
-        val executable = { graphFactory.create(spectrum) }
-
-        // Then
-        assertAll(
-                { assertTimeoutPreemptively(Duration.ofSeconds(1), executable) }
-        )
-    }
-
     private fun `With given spectrum, creates desired graph`(spectrum: Set<String>, expectations: DirectedMultigraph<String, Int>.() -> Unit) {
         // When
         val resultGraph = graphFactory.create(spectrum)
