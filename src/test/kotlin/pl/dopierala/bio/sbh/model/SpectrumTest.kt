@@ -29,15 +29,15 @@ internal class SpectrumTest {
                 },
                 {
                     val exception = assertThrows<IllegalArgumentException> { "A".spectrum(-1) }
-                    assertEquals("Size has to be positive!", exception.message)
+                    assertEquals("Length has to be positive!", exception.message)
                 },
                 {
                     val exception = assertThrows<IllegalArgumentException> { "C".spectrum(0) }
-                    assertEquals("Size has to be positive!", exception.message)
+                    assertEquals("Length has to be positive!", exception.message)
                 },
                 {
                     val exception = assertThrows<IllegalArgumentException> { "G".spectrum(2) }
-                    assertEquals("Size cannot exceed sequence length!", exception.message)
+                    assertEquals("Length cannot exceed sequence length!", exception.message)
                 }
         )
     }
