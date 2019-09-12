@@ -83,12 +83,12 @@ internal class DefaultGraphFactoryTest {
         `With given spectrum, creates desired graph`(spectrum) { /* EMPTY */ }
     }
 
-    private fun `With given spectrum, creates desired graph`(spectrum: Set<String>, expectations: DirectedMultigraph<String, Int>.() -> Unit) {
+    private fun `With given spectrum, creates desired graph`(spectrum: Set<String>, expectations: Graph.() -> Unit) {
         // When
         val resultGraph = graphFactory.create(spectrum)
 
         // Then
-        val expectedGraph = DirectedMultigraph<String, Int>().apply(expectations)
+        val expectedGraph = Graph().apply(expectations)
 
         assertAll(
                 { assertNotNull(resultGraph) },

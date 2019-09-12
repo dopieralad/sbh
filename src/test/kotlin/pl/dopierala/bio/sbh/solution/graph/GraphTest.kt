@@ -5,19 +5,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import java.util.function.Supplier
 
-internal class DirectedMultigraphTest {
+internal class GraphTest {
 
     @Test
     fun `Creates a new directed multigraph`() {
         assertDoesNotThrow {
-            DirectedMultigraph<String, Int>()
+            Graph()
         }
     }
 
     @Test
     fun `Gets an empty set of edges between nodes`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
 
         // Then
         assertAll(
@@ -28,7 +28,7 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Adds a directed edge between nodes`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
 
         // When
         graph.add("A" to "B", 1)
@@ -42,7 +42,7 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Adds a duplicate directed edge between nodes`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
 
         // When
         graph.add("A" to "B", 1)
@@ -57,7 +57,7 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Adds multiple directed edges between nodes`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
 
         // When
         graph.add("A" to "B", 1)
@@ -77,8 +77,8 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Equals to an empty graph when empty`() {
         // Given
-        val graphOne = DirectedMultigraph<String, Int>()
-        val graphTwo = DirectedMultigraph<String, Int>()
+        val graphOne = Graph()
+        val graphTwo = Graph()
 
         // When
         val areEqual = graphOne == graphTwo
@@ -93,7 +93,7 @@ internal class DirectedMultigraphTest {
     fun `Equals to another graph, when has equal edges`() {
         // Given
         val graph = Supplier {
-            val graph = DirectedMultigraph<String, Int>()
+            val graph = Graph()
             graph.add("A" to "B", 1)
             graph.add("A" to "B", 2)
             graph.add("B" to "A", 3)
@@ -117,7 +117,7 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Represents itself as an empty map when empty`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
 
         // When
         val string = graph.toString()
@@ -131,7 +131,7 @@ internal class DirectedMultigraphTest {
     @Test
     fun `Represents itself as a filled map when has one edge`() {
         // Given
-        val graph = DirectedMultigraph<String, Int>()
+        val graph = Graph()
         graph.add("A" to "B", 3)
 
         // When

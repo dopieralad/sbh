@@ -1,14 +1,14 @@
 package pl.dopierala.bio.sbh.solution.graph
 
-class DirectedMultigraph<N, V> : HashMap<N, HashMap<N, HashSet<V>>>() {
+class Graph : HashMap<String, HashMap<String, HashSet<Int>>>() {
 
-    fun add(edge: Pair<N, N>, value: V) {
+    fun add(edge: Pair<String, String>, value: Int) {
         getOrPut(edge.first, { HashMap() })
                 .getOrPut(edge.second, { HashSet() })
                 .add(value)
     }
 
-    fun get(edge: Pair<N, N>): Set<V> {
+    fun get(edge: Pair<String, String>): Set<Int> {
         return getOrDefault(edge.first, HashMap())
                 .getOrDefault(edge.second, HashSet())
     }

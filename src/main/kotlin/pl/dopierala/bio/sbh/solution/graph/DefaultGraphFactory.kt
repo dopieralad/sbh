@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component
 @Component
 class DefaultGraphFactory : GraphFactory {
 
-    override fun create(spectrum: Set<String>): DirectedMultigraph<String, Int> {
-        val graph = DirectedMultigraph<String, Int>()
+    override fun create(spectrum: Set<String>): Graph {
+        val graph = Graph()
 
         spectrum.forEach { source ->
             val others = spectrum - source
