@@ -6,11 +6,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
 }
 
-val projectGroup: String by project
-val projectVersion: String by project
-group = projectGroup
-version = projectVersion
-
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
