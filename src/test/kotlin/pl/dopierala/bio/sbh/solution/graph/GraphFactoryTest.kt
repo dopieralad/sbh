@@ -1,11 +1,10 @@
-package pl.dopierala.bio.sbh.solution
+package pl.dopierala.bio.sbh.solution.graph
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import pl.dopierala.bio.sbh.model.generateDna
 import pl.dopierala.bio.sbh.model.spectrum
-import pl.dopierala.bio.sbh.solution.graph.DirectedMultigraph
 import java.time.Duration
 import kotlin.math.exp
 

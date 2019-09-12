@@ -1,7 +1,6 @@
-package pl.dopierala.bio.sbh.solution
+package pl.dopierala.bio.sbh.solution.graph
 
 import org.springframework.stereotype.Component
-import pl.dopierala.bio.sbh.solution.graph.DirectedMultigraph
 
 @Component
 class GraphFactory {
