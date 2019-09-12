@@ -3,14 +3,11 @@ package pl.dopierala.bio.sbh.solution.graph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import pl.dopierala.bio.sbh.model.generateDna
 import pl.dopierala.bio.sbh.model.spectrum
-import java.time.Duration
-import kotlin.math.exp
 
-internal class GraphFactoryTest {
+internal class DefaultGraphFactoryTest {
 
-    private val graphFactory = GraphFactory()
+    private val graphFactory = DefaultGraphFactory()
 
     @Test
     fun `Creates a graph for an empty spectrum`() {
