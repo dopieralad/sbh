@@ -12,15 +12,15 @@ import javax.validation.constraints.Min
 class SbhCommands {
 
     @ShellMethod(value = "Solves the SBH problem.")
-    fun solve(@ShellOption(value = ["-s"], defaultValue = "100", help = "Size of the DNA sequence.")
+    fun solve(@ShellOption(value = ["-d", "--dna-length"], defaultValue = "100", help = "Length of the DNA sequence.")
               @Min(100)
               @Max(700)
-              size: Int,
+              dnaLength: Int,
 
-              @ShellOption(value = ["-o", "-l"], defaultValue = "10", help = "Length of a single oligonucleotide.")
+              @ShellOption(value = ["-o", "--oligonucleotide-length"], defaultValue = "10", help = "Length of a single oligonucleotide.")
               @Min(8)
               @Max(12)
               oligonucleotideLength: Int) {
-        println("Size: $size, length: $oligonucleotideLength.")
+        println("DNA length: $dnaLength, oligonucleotide length: $oligonucleotideLength.")
     }
 }
