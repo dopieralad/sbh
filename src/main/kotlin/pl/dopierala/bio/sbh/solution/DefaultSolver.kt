@@ -65,7 +65,6 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
 
             return currentSequence
         } catch (e: Exception) {
-//                    println("Ant: '${antIndex}' in generation: '${generationIndex}' has failed!")
             return Sequence()
         }
     }
