@@ -1,5 +1,6 @@
 package pl.dopierala.bio.sbh.solution
 
+import kotlinx.coroutines.*
 import org.springframework.stereotype.Component
 import pl.dopierala.bio.sbh.solution.configuration.SolutionProperties
 import pl.dopierala.bio.sbh.solution.graph.Graph
@@ -7,6 +8,7 @@ import pl.dopierala.bio.sbh.solution.graph.GraphFactory
 import pl.dopierala.bio.sbh.solution.model.Instance
 import pl.dopierala.bio.sbh.solution.model.Sequence
 import java.lang.Exception
+import java.util.concurrent.Executors.newWorkStealingPool
 
 @Component
 class DefaultSolver(private val graphFactory: GraphFactory, private val solutionProperties: SolutionProperties) : Solver {
@@ -22,6 +24,8 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
     private fun getBestSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): Sequence {
         return (0 until solutionProperties.generations)
                 .flatMap {
+                    println("Generation: '$it'.")
+
                     val sequences = generateSequences(instance, spectrumGraph, pheromoneGraph)
 
                     evaporatePheromone(pheromoneGraph)
@@ -34,8 +38,11 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
     }
 
     private fun generateSequences(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): List<Sequence> {
-        return (0 until solutionProperties.ants)
-                .map { generateSequence(instance, spectrumGraph, pheromoneGraph) }
+        return runBlocking(newWorkStealingPool().asCoroutineDispatcher()) {
+            (0 until solutionProperties.ants)
+                    .map { async { generateSequence(instance, spectrumGraph, pheromoneGraph) } }
+                    .awaitAll()
+        }
     }
 
     private fun generateSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): Sequence {
