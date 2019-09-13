@@ -14,11 +14,13 @@ repositories {
 }
 
 dependencies {
-    val springShellVersion: String by project
+    val kotlinCoroutinesVersion: String by project
     val jUnitVersion: String by project
+    val springShellVersion: String by project
 
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
     implementation("org.springframework.shell:spring-shell-starter:$springShellVersion")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
