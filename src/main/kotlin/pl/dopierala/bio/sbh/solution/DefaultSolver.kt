@@ -14,13 +14,13 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
 
     override fun solve(instance: Instance): String {
         val spectrumGraph = graphFactory.create(instance.spectrum)
-        val pheromoneGraph = HashMap<String, HashMap<String, Double>>()
+        val pheromoneGraph = HashMap<String, HashMap<String, HashMap<Int, Double>>>()
         val bestSequence = getBestSequence(instance, spectrumGraph, pheromoneGraph)
 
         return bestSequence.get()
     }
 
-    private fun getBestSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): Sequence {
+    private fun getBestSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>): Sequence {
         return (0 until solutionProperties.generations)
                 .flatMap {
                     println("Generation: '$it'.")
@@ -36,7 +36,7 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
                 .maxBy(Sequence::value)!!
     }
 
-    private fun generateSequences(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): List<Sequence> {
+    private fun generateSequences(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>): List<Sequence> {
         return runBlocking(dispatcher) {
             (0 until solutionProperties.ants)
                     .map { async { generateSequence(instance, spectrumGraph, pheromoneGraph) } }
@@ -44,14 +44,19 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
         }
     }
 
-    private fun generateSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): Sequence {
+    private fun generateSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>): Sequence {
         try {
             val firstOligonucleotide = instance.firstOligonucleotide()
             val currentSequence = Sequence().apply { add(firstOligonucleotide) }
             var currentNucleotide = firstOligonucleotide
 
-            val getPheromoneForTarget: (String) -> Double = { target -> pheromoneGraph.getOrDefault(currentNucleotide, emptyMap<String, Double>()).getOrDefault(target, 0.1) }
-            val getNextNucleotideValue: (Pair<String, Int>) -> Double = { nextNucleotide -> getPheromoneForTarget(nextNucleotide.first) * nextNucleotide.second }
+            val getPheromoneForTarget: (Pair<String, Int>) -> Double = { target ->
+                pheromoneGraph
+                        .getOrDefault(currentNucleotide, emptyMap<String, HashMap<Int, Double>>())
+                        .getOrDefault(target.first, emptyMap<Int, Double>())
+                        .getOrDefault(target.second, 0.1)
+            }
+            val getNextNucleotideValue: (Pair<String, Int>) -> Double = { pair -> getPheromoneForTarget(pair) * pair.second }
 
             while (currentSequence.length() < instance.dnaLength) {
                 val potentialSuccessors = extractPotentialSuccessors(instance, currentNucleotide, currentSequence, spectrumGraph, getNextNucleotideValue)
@@ -90,23 +95,27 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
         }
     }
 
-    private fun evaporatePheromone(pheromoneGraph: HashMap<String, HashMap<String, Double>>) {
+    private fun evaporatePheromone(pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>) {
         pheromoneGraph.forEach { source ->
-            source.value.replaceAll { _, value ->
-                (1.0 - solutionProperties.pheromone.evaporation) * value
+            source.value.forEach { target ->
+                target.value.replaceAll { _, value ->
+                    (1.0 - solutionProperties.pheromone.evaporation) * value
+                }
             }
         }
     }
 
-    private fun applyPheromone(pheromoneGraph: HashMap<String, HashMap<String, Double>>, sequences: Collection<Sequence>) {
+    private fun applyPheromone(pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>, sequences: Collection<Sequence>) {
         sequences.forEach { sequence ->
-            val pheromone = 1.0 / sequence.sequence().size
+            val pheromone = sequence.value()
+
             sequence.sequence().windowed(2).forEach {
                 val (source) = it[0]
-                val (target) = it[1]
+                val (target, overlap) = it[1]
                 pheromoneGraph
                         .getOrPut(source, { HashMap() })
-                        .compute(target) { _, currentPheromone -> (currentPheromone ?: 0.0) + pheromone }
+                        .getOrPut(target, { HashMap() })
+                        .compute(overlap) { _, currentPheromone -> (currentPheromone ?: 0.0) + pheromone }
             }
         }
     }
