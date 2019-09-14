@@ -23,8 +23,6 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
     private fun getBestSequence(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>): Sequence {
         return (0 until solutionProperties.generations)
                 .flatMap {
-                    println("Generation: '$it'.")
-
                     val sequences = generateSequences(instance, spectrumGraph, pheromoneGraph)
 
                     evaporatePheromone(pheromoneGraph)
