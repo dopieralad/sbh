@@ -3,6 +3,7 @@ package pl.dopierala.bio.sbh.solution
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import pl.dopierala.bio.sbh.solution.configuration.SolutionConfiguration
 import pl.dopierala.bio.sbh.solution.configuration.SolutionProperties
 import pl.dopierala.bio.sbh.solution.graph.DefaultGraphFactory
 import pl.dopierala.bio.sbh.solution.model.Instance
@@ -11,9 +12,11 @@ import pl.dopierala.bio.sbh.verification.scoreAgainst
 
 internal class DefaultSolverTest {
 
-    private val solutionProperties = SolutionProperties()
     private val graphFactory = DefaultGraphFactory()
-    private val solver = DefaultSolver(graphFactory, solutionProperties)
+    private val solutionProperties = SolutionProperties()
+    private val solutionConfiguration = SolutionConfiguration()
+    private val dispatcher = solutionConfiguration.dispatcher()
+    private val solver = DefaultSolver(graphFactory, solutionProperties, dispatcher)
 
     @Test
     fun `Solves DNA sequencing problem`() {

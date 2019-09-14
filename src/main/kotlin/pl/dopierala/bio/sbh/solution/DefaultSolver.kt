@@ -8,10 +8,9 @@ import pl.dopierala.bio.sbh.solution.graph.GraphFactory
 import pl.dopierala.bio.sbh.solution.model.Instance
 import pl.dopierala.bio.sbh.solution.model.Sequence
 import java.lang.Exception
-import java.util.concurrent.Executors.newWorkStealingPool
 
 @Component
-class DefaultSolver(private val graphFactory: GraphFactory, private val solutionProperties: SolutionProperties) : Solver {
+class DefaultSolver(private val graphFactory: GraphFactory, private val solutionProperties: SolutionProperties, private val dispatcher: CoroutineDispatcher) : Solver {
 
     override fun solve(instance: Instance): String {
         val spectrumGraph = graphFactory.create(instance.spectrum)
@@ -38,7 +37,7 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
     }
 
     private fun generateSequences(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, Double>>): List<Sequence> {
-        return runBlocking(newWorkStealingPool().asCoroutineDispatcher()) {
+        return runBlocking(dispatcher) {
             (0 until solutionProperties.ants)
                     .map { async { generateSequence(instance, spectrumGraph, pheromoneGraph) } }
                     .awaitAll()
