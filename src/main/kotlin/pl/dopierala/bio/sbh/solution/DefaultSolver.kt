@@ -31,7 +31,7 @@ class DefaultSolver(private val graphFactory: GraphFactory, private val solution
 
                     return@flatMap sequences
                 }
-                .maxBy(Sequence::value)!!
+                .maxBy(Sequence::value) ?: Sequence()
     }
 
     private fun generateSequences(instance: Instance, spectrumGraph: Graph, pheromoneGraph: HashMap<String, HashMap<String, HashMap<Int, Double>>>): List<Sequence> {
