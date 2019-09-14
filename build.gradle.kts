@@ -13,6 +13,18 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
+sourceSets {
+    create("report") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+configurations {
+    this["reportImplementation"].extendsFrom(configurations.testImplementation.get())
+    this["reportRuntime"].extendsFrom(configurations.testRuntime.get())
+}
+
 dependencies {
     val kotlinCoroutinesVersion: String by project
     val jUnitVersion: String by project
@@ -47,6 +59,22 @@ tasks.test {
     useJUnitPlatform()
     jvmArgs = listOf("-Xmx10g", "-XX:MaxMetaspaceSize=1g", "-XX:+HeapDumpOnOutOfMemoryError", "-Dfile.encoding=UTF-8")
 }
+
+val report = task<Test>("report") {
+    description = "Generates reports"
+    group = "verification"
+
+    testClassesDirs = sourceSets["report"].output.classesDirs
+    classpath = sourceSets["report"].runtimeClasspath
+
+    shouldRunAfter("test")
+    outputs.upToDateWhen { false }
+
+    useJUnitPlatform()
+    jvmArgs = listOf("-Xmx10g", "-XX:MaxMetaspaceSize=1g", "-XX:+HeapDumpOnOutOfMemoryError", "-Dfile.encoding=UTF-8")
+}
+
+tasks.check { dependsOn(report) }
 
 tasks.wrapper {
     gradleVersion = "5.6.2"
