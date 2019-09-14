@@ -45,6 +45,7 @@ tasks.compileTestKotlin {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf("-Xmx10g", "-XX:MaxMetaspaceSize=1g", "-XX:+HeapDumpOnOutOfMemoryError", "-Dfile.encoding=UTF-8")
 }
 
 tasks.wrapper {
