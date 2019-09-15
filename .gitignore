@@ -31,3 +31,8 @@ spring-shell.log
 
 ### VS Code ###
 .vscode/
+
+### Project ###
+/*.csv
+/*.xlsx
+/*.log
