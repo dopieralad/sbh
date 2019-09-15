@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory
 import pl.dopierala.bio.sbh.solution.AbstractReport
 import pl.dopierala.bio.sbh.solution.model.Instance
 
-internal class CombinedReport : AbstractReport("Combined") {
+internal class AlgorithmReport : AbstractReport("Algorithm") {
 
-    private val log: Logger = LoggerFactory.getLogger(CombinedReport::class.java)
+    private val log: Logger = LoggerFactory.getLogger(AlgorithmReport::class.java)
 
     @Test
     fun `Reports performance for each algorithm variant`() {
