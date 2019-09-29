@@ -8,6 +8,7 @@ import org.springframework.shell.standard.ShellMethod
 import org.springframework.shell.standard.ShellOption
 import pl.dopierala.bio.sbh.solution.Solver
 import pl.dopierala.bio.sbh.solution.model.Instance
+import pl.dopierala.bio.sbh.verification.maximumScore
 import pl.dopierala.bio.sbh.verification.scoreAgainst
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -37,6 +38,7 @@ class SbhCommands(private val solver: Solver) {
         logger.info("Computed sequence: {}", sequence)
 
         val score = sequence.scoreAgainst(instance.dna)
-        logger.info("Achieved score: {}%", score)
+        val maximalScore = instance.dna.maximumScore()
+        logger.info("Achieved score: {}%", 100.0 * score / maximalScore)
     }
 }
